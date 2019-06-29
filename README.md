@@ -6,7 +6,6 @@ A UWP control leveraging WinUI and Composition
 ##### Default use
 
 ```xml
-<!-- Normal usage -->
 <controls:AnimatedBusyIndicator IsActive="True"
                                 BusyContent="I'm busy right now...">
     <controls:AnimatedBusyIndicator.AnimationContent>
@@ -18,7 +17,6 @@ A UWP control leveraging WinUI and Composition
 ##### Useful customizable properties
 
 ```xml
-<!-- Normal usage -->
 <controls:AnimatedBusyIndicator IsActive="True"
                                 BusyContent="Overriding default values..."
                                 AnimationWidth="100"
@@ -35,6 +33,7 @@ A UWP control leveraging WinUI and Composition
 ```xml
 <controls:AnimatedBusyIndicator IsActive="True">
     <controls:AnimatedBusyIndicator.BusyContent>
+        <!-- The internal ContentPresenter will faithfully display your content, but can still take advantage of inherited properties like Foreground -->
         <TextBlock Text="I'm custom content, yay!" FontWeight="Bold" />
     </controls:AnimatedBusyIndicator.BusyContent>
     <controls:AnimatedBusyIndicator.AnimationContent>
@@ -47,7 +46,7 @@ A UWP control leveraging WinUI and Composition
 ```xml
 <controls:AnimatedBusyIndicator>
     <controls:AnimatedBusyIndicator.Style>
-        <Style TargetType="controls1:AnimatedBusyIndicator">
+        <Style TargetType="myControls:AnimatedBusyIndicator">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
