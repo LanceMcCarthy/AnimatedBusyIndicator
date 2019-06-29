@@ -1,0 +1,138 @@
+﻿<Page x:Class="IndicatorApp.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:IndicatorApp"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
+      xmlns:controls="using:IndicatorApp.Controls"
+      mc:Ignorable="d"
+      RequestedTheme="Light"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!-- Normal usage -->
+        <controls:AnimatedBusyIndicator IsActive="{Binding IsOn, ElementName=PowerSwitch}"
+                                        BusyContent="Out-of-the-box usage...">
+            <controls:AnimatedBusyIndicator.AnimationContent>
+                <lottie:LottieVisualSource UriSource="ms-appx:///Assets/LottieFiles/AlienIdScan.json" />
+            </controls:AnimatedBusyIndicator.AnimationContent>
+        </controls:AnimatedBusyIndicator>
+
+        <!-- Custom BusyContent example -->
+        <controls:AnimatedBusyIndicator IsActive="{Binding IsOn, ElementName=PowerSwitch}"
+                                        Grid.Column="1">
+            <controls:AnimatedBusyIndicator.BusyContent>
+                <TextBlock Text="I'm custom content, yay!"
+                           FontWeight="Bold" />
+            </controls:AnimatedBusyIndicator.BusyContent>
+            <controls:AnimatedBusyIndicator.AnimationContent>
+                <lottie:LottieVisualSource UriSource="ms-appx:///Assets/LottieFiles/ChartLoading.json" />
+            </controls:AnimatedBusyIndicator.AnimationContent>
+        </controls:AnimatedBusyIndicator>
+
+        <!-- Example showing animation size/alignment properties and Foreground color propagation-->
+        <controls:AnimatedBusyIndicator IsActive="{Binding IsOn, ElementName=PowerSwitch}"
+                                        BusyContent="I'm overriding default properties..."
+                                        Foreground="Red"
+                                        AnimationHeight="100"
+                                        AnimationWidth="100"
+                                        AnimationHorizontalAlignment="Right"
+                                        AnimationVerticalAlignment="Bottom"
+                                        Grid.Row="1">
+            <controls:AnimatedBusyIndicator.AnimationContent>
+                <lottie:LottieVisualSource UriSource="ms-appx:///Assets/LottieFiles/PaperPlane.json" />
+            </controls:AnimatedBusyIndicator.AnimationContent>
+        </controls:AnimatedBusyIndicator>
+
+
+        <!-- Control is 100% customizable via ControlTemplate!-->
+        <controls:AnimatedBusyIndicator IsActive="{Binding IsOn, ElementName=PowerSwitch}"
+                                        BusyContent="I'm using remote URI for lottie file."
+                                        AnimationHorizontalAlignment="Center"
+                                        AnimationVerticalAlignment="Center"
+                                        Grid.Row="1"
+                                        Grid.Column="1">
+            <controls:AnimatedBusyIndicator.AnimationContent>
+                <lottie:LottieVisualSource UriSource="https://assets7.lottiefiles.com/packages/lf20_jpxsQh.json" />
+            </controls:AnimatedBusyIndicator.AnimationContent>
+        </controls:AnimatedBusyIndicator>
+
+        <!-- 100% customizable through targeted style and ControlTemplate, see MyCustomIndicatorStyle in App.xaml for extracted Style -->
+        <!--<controls:AnimatedBusyIndicator>
+            <controls:AnimatedBusyIndicator.Style>
+                <Style TargetType="controls1:AnimatedBusyIndicator">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Grid>
+                                    <Grid.Resources>
+                                        <animations:AnimationCollection x:Key="CommonShowAnimations">
+                                            <animations:ScaleAnimation From="0.1"
+                                                                       To="1"
+                                                                       Delay="0:0:0.4"
+                                                                       Duration="0:0:0.8"
+                                                                       SetInitialValueBeforeDelay="True" />
+                                            <animations:OpacityAnimation From="0"
+                                                                         To="1"
+                                                                         Delay="0:0:0.4"
+                                                                         Duration="0:0:0.8"
+                                                                         SetInitialValueBeforeDelay="True" />
+                                        </animations:AnimationCollection>
+                                        <animations:AnimationCollection x:Key="CommonHideAnimations">
+                                            <animations:ScaleAnimation From="1"
+                                                                       To="0.1"
+                                                                       Duration="0:0:1.0" />
+                                            <animations:OpacityAnimation From="1"
+                                                                         To="0"
+                                                                         Duration="0:0:1.0" />
+                                        </animations:AnimationCollection>
+                                    </Grid.Resources>
+
+                                    <StackPanel HorizontalAlignment="{TemplateBinding AnimationHorizontalAlignment}"
+                                                VerticalAlignment="{TemplateBinding AnimationVerticalAlignment}">
+                                        <controls:AnimatedVisualPlayer x:Name="PART_Indicator"
+                                                                       AutoPlay="True"
+                                                                       Source="{TemplateBinding AnimationContent}"
+                                                                       Width="{TemplateBinding AnimationWidth}"
+                                                                       Height="{TemplateBinding AnimationHeight}"
+                                                                       extensions:VisualExtensions.NormalizedCenterPoint="0.5,0.5,0"
+                                                                       animations:Implicit.HideAnimations="{StaticResource CommonHideAnimations}"
+                                                                       animations:Implicit.ShowAnimations="{StaticResource CommonShowAnimations}"
+                                                                       Margin="10,10,10,5" />
+
+                                        <ContentPresenter x:Name="PART_BusyContentPresenter"
+                                                          Content="{TemplateBinding BusyContent}"
+                                                          Foreground="{TemplateBinding Foreground}"
+                                                          Margin="0,5,0,10"
+                                                          HorizontalAlignment="Center"
+                                                          extensions:VisualExtensions.NormalizedCenterPoint="0.5,0.5,0"
+                                                          animations:Implicit.HideAnimations="{StaticResource CommonHideAnimations}"
+                                                          animations:Implicit.ShowAnimations="{StaticResource CommonShowAnimations}" />
+                                    </StackPanel>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </controls:AnimatedBusyIndicator.Style>
+        </controls:AnimatedBusyIndicator>-->
+
+        <ToggleSwitch x:Name="PowerSwitch"
+                      IsOn="True"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Margin="20"
+                      Grid.RowSpan="2"
+                      Grid.ColumnSpan="2" />
+    </Grid>
+</Page>
